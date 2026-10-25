@@ -1,0 +1,18 @@
+# --- Not for publication: university-copyrighted lab briefs ---
+*.pdf
+
+# --- Not for publication: original submitted coursework reports (un-redacted) ---
+*.txt
+
+# --- Original un-renamed capture files kept outside the published assets/ folders ---
+Side Channel Attacks/Task 2/
+Side Channel Attacks/Task 3/
+Side Channel Attacks/Task 4/
+IOT Devices Security/Task*.png
+Security of GSM Communication/Task*.png
+Security of GSM Communication/Task5_voice.au
+
+# --- OS / editor cruft ---
+.DS_Store
+Thumbs.db
+desktop.ini
