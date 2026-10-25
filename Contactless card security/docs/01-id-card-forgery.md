@@ -1,8 +1,8 @@
-# 01 — Reconstructing a University ID Card from a Directory Dump
+# 01. Reconstructing a University ID Card from a Directory Dump
 
-> **Scope:** Authorised lab exercise. The "target" is a **fabricated test identity**
+> **Scope:** Authorised lab exercise. The "target" is a fabricated test identity
 > supplied by the module (a well-known public-figure name used deliberately as dummy
-> data), queried from a **disabled, lab-only LDAP server**. No real person's data was
+> data), queried from a disabled, lab-only LDAP server. No real person's data was
 > used, and all identifying fields are redacted below.
 
 ## Context
@@ -17,7 +17,7 @@ ldapsearch -x -h ldap.soton.example -LLL -b dc=soton,dc=ac,dc=uk \
   "(&(sn=<REDACTED>)(givenName=<REDACTED>))" -w "" > target.ldap
 ```
 
-Note the `-x` (simple auth) and `-w ""` (empty password): the query is **unauthenticated**.
+Note the `-x` (simple auth) and `-w ""` (empty password): the query is unauthenticated.
 
 ## Objective
 
@@ -53,22 +53,23 @@ replica from an obvious fake. By comparing against reference cards:
 | ID number | Georgia |
 
 **4. Reverse-engineer the barcode (the interesting part).** Using an online barcode
-reader, I identified the symbology as **Codabar**, which has the form:
+reader, I identified the symbology as Codabar, which has the form:
 
 ```
 ^[A-Da-d][0-9\-\.\$\/\+\:]+[A-Da-d]$
 ```
 
-Codabar wraps its payload in a start/stop character (`A`–`D`). The payload was clearly
-the staff ID number, so the only unknowns were *which* start and stop characters the
-organisation used. By testing against the original card I recovered the template:
+Codabar wraps its payload in a start/stop character (`A` to `D`). The payload was
+clearly the staff ID number, so the only unknowns were *which* start and stop
+characters the organisation used. By testing against the original card I recovered the
+template:
 
 ```
 A <staff-ID-number> C        e.g.  A<REDACTED-ID>C
 ```
 
 Regenerating the barcode from the ID number and overlaying it on the original produced
-a **pixel-identical** match — confirming the format was correct.
+a pixel-identical match, which confirmed the format was correct.
 
 **5. Assemble.** With the photo, fonts, ID number and a correctly-encoded barcode, I
 composited the final card at 600 dpi.
@@ -77,17 +78,17 @@ composited the final card at 600 dpi.
 
 ## Findings
 
-- A single **unauthenticated** directory query returned enough structured data
+- A single unauthenticated directory query returned enough structured data
   (name, ID, embedded photo) to drive a full physical forgery.
-- The barcode encodes **nothing secret** — just the staff number in a fixed Codabar
-  wrapper — so it provides *identification*, not *authentication*. Anyone who can read
+- The barcode encodes nothing secret, just the staff number in a fixed Codabar
+  wrapper, so it identifies the holder without authenticating them. Anyone who can read
   the number can regenerate the barcode.
 - Visual fidelity came down to details most forgers miss: exact fonts per field and
   the correct barcode start/stop characters.
 
 ## Security takeaway
 
-This is an **aggregation / exposure** problem. No individual field was a "secret," but
+This is an aggregation and exposure problem. No individual field was a "secret," but
 their combination plus a public card template is sufficient to clone a credential that
 humans and simple barcode scanners will accept. Mitigations are organisational:
 restrict/authenticate directory access, don't treat a scannable number as proof of
