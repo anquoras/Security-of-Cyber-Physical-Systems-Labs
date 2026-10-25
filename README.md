@@ -1,8 +1,8 @@
-# Security of Cyber-Physical Systems — Project Portfolio
+# Security of Cyber-Physical Systems - Project Portfolio
 
 A set of four hands-on hardware- and radio-security projects, each taking a real-world
 device or protocol apart to understand *why* it is (in)secure. The work spans contactless
-smartcards, power side-channels, IoT radio control, and mobile telephony — the physical
+smartcards, power side-channels, IoT radio control, and mobile telephony - the physical
 layer where cryptography meets the real world, and where it so often breaks.
 
 Every project follows the same spine: **build or capture → break → explain the lesson**,
@@ -10,11 +10,11 @@ with findings written up as a results-first `README` plus focused deep-dives.
 
 > ### ⚠️ Scope & ethics
 > All four projects were carried out as **authorised university laboratories**
-> (University of Southampton, COMP3217 — *Security of Cyber-Physical Systems*) against
+> (University of Southampton, COMP3217 - *Security of Cyber-Physical Systems*) against
 > **lab-issued hardware, synthetic data, and private test networks**. No real individual,
 > device, network or payment system was ever targeted. Personal identifiers are redacted,
 > and the radio work in particular (IoT RF and GSM) was confined to equipment I control or
-> authorised test frequencies — **intercepting or transmitting on real networks is a
+> authorised test frequencies - **intercepting or transmitting on real networks is a
 > criminal offence**. Everything here is documented for **education and defensive
 > understanding** only.
 
@@ -33,7 +33,7 @@ with findings written up as a results-first `README` plus focused deep-dives.
 
 ## Project summaries
 
-### 1 — Contactless Card Security
+### 1 - Contactless Card Security
 Building and breaking everyday contactless technology across three investigations:
 reconstructing a university ID card from an unauthenticated LDAP dump (including
 reverse-engineering its Codabar barcode), breaking a **MIFARE Classic 1K** token
@@ -43,7 +43,7 @@ from *Optimised to Fail*.
 **Tools:** `libnfc`, `mfoc`, `nfc-mfclassic`, hex editing, OSINT, Codabar.
 → **[Open project](Contactless%20card%20security/README.md)**
 
-### 2 — Power Side-Channel Attacks
+### 2 - Power Side-Channel Attacks
 Using a **ChipWhisperer-Lite** to read secrets from a chip's power consumption: learning
 to map a power trace back to its C source, recovering an 11-character password from timing
 leakage (each correct character adds a measurable loop iteration), and recovering a full
@@ -53,17 +53,17 @@ message.
 `pycryptodome`.
 → **[Open project](Side%20Channel%20Attacks/README.md)**
 
-### 3 — IoT RF Security
+### 3 - IoT RF Security
 Attacking a 433.92 MHz radio-controlled relay (EV1527 "garage-door-opener" tech) with a
 **PlutoSDR**: predicting its RF behaviour from the datasheet, locating the carrier in gqrx,
 performing a **replay attack** with Universal Radio Hacker, and decoding the protocol to
-compute its keyspace and brute-force time — ending in a security verdict on static-code
+compute its keyspace and brute-force time - ending in a security verdict on static-code
 devices.
 **Tools:** SDR (PlutoSDR), gqrx, Universal Radio Hacker, OOK/ASK, EV1527, replay vs.
 rolling codes.
 → **[Open project](IOT%20Devices%20Security/README.md)**
 
-### 4 — GSM Security
+### 4 - GSM Security
 Passively intercepting a **private test GSM cell** with an SDR and `gr-gsm`: decoding the
 broadcast parameters from live GSMTAP packets in Wireshark, following the control channels
 to read a plaintext **SMS two-factor code**, proving the cell runs **A5/0 (no
@@ -76,18 +76,18 @@ identities & channels.
 
 ## Themes across the portfolio
 
-- **Identifiers are not secrets.** A card UID, a GSM IMSI/TMSI, an EV1527 address — each
+- **Identifiers are not secrets.** A card UID, a GSM IMSI/TMSI, an EV1527 address - each
   gets treated as proof of identity, and each is readable or forgeable by a passive
   attacker.
 - **Optional or weak cryptography is no cryptography.** MIFARE's broken Crypto-1, GSM's
-  A5/0 fallback, and static RF codes all fail the moment an attacker shows up — the
+  A5/0 fallback, and static RF codes all fail the moment an attacker shows up - the
   defence is *mandatory, modern* crypto with freshness (rolling codes, session keys,
   mutual authentication).
 - **The physical layer leaks.** Power, timing and radio emissions all carry secret-
   dependent signal; sound algorithms still fall to their implementations (CPA on AES) and
   to plaintext transmission (GSM SMS/voice).
 - **Cheap, open tools lower the barrier.** `mfoc`, a ChipWhisperer, a £30 SDR with
-  `gr-gsm` or URH — the hardware and software to run every attack here are inexpensive and
+  `gr-gsm` or URH - the hardware and software to run every attack here are inexpensive and
   freely available, which is exactly why these designs can no longer be trusted for
   anything sensitive.
 
@@ -96,5 +96,5 @@ identities & channels.
 Hardware & RF security · SDR (PlutoSDR / LimeSDR) · NFC/RFID (MIFARE Classic) · power
 side-channel analysis (SPA, CPA) · protocol reverse-engineering · Wireshark / GSMTAP ·
 cryptographic weaknesses (Crypto-1, A5, static codes) · OSINT · Python tooling · Linux/VM
-workflows · and — throughout — a focus on tying each finding to a concrete **defensive
+workflows · and throughout a focus on tying each finding to a concrete **defensive
 takeaway**.
